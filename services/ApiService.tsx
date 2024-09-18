@@ -4,6 +4,7 @@ export class ApiService {
     private baseUrl;
 
     constructor(baseUrl: string) {
+        console.log(baseUrl)
         this.baseUrl = baseUrl;
     }
 

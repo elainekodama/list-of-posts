@@ -1,4 +1,4 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { Text, type TextProps, StyleSheet, Platform } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -36,8 +36,8 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: Platform.OS === 'web' ? 16 : 14,
+    lineHeight: Platform.OS === 'web' ? 24 : 18,
   },
   defaultSemiBold: {
     fontSize: 16,
@@ -45,17 +45,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   pageHeader: {
-    fontSize: 48,
+    fontSize: Platform.OS === 'web' ? 48 : 36,
     fontWeight: 'bold',
-    lineHeight: 48,
   },
   title: {
-    fontSize: 28,
+    fontSize: Platform.OS === 'web' ? 28 : 18,
     fontWeight: 'bold',
-    lineHeight: 32,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: Platform.OS === 'web' ? 18 : 14,
     fontStyle: 'italic',
   },
   smallSubtitle: {

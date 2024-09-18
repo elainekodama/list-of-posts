@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -8,7 +8,6 @@ import { Post } from "@/models/Post";
 import { getRelativeDateString } from "@/constants/Helpers";
 import { Collapsible } from "../Collapsible";
 import { patientPostStrings } from "@/constants/Strings";
-import { ScrollView } from "react-native-gesture-handler";
 import { PostComment } from "@/models/PostComment";
 
 type PatientPostProps = {
@@ -140,88 +139,83 @@ export function PatientPost({ post, previewOnly, onHugNumberChange }: PatientPos
     const groupedComments = groupCommentsByParent(post.comments);
 
     return (
-        <ScrollView style={styles.scrollContainer}>
-            <View style={[styles.container, { backgroundColor: background }]}>
-                {/* Header */}
-                <View style={{ gap: 8 }}>
-                    <ThemedText type="title">
-                        {post.title}
+        <View style={styles.container}>
+            {/* Header */}
+            <View style={{ gap: 8 }}>
+                <ThemedText type="title">
+                    {post.title}
+                </ThemedText>
+                <View style={styles.commentInfoContainer}>
+                    <ThemedText type="subtitle" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
+                        {post.getPatientDescription()}
                     </ThemedText>
-                    <View style={styles.commentInfoContainer}>
-                        <ThemedText type="subtitle" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
-                            {post.getPatientDescription()}
-                        </ThemedText>
-                        <ThemedText type="subtitle" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
-                            {getRelativeDateString(post.created_at)}
-                        </ThemedText>
-                    </View>
+                    <ThemedText type="subtitle" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
+                        {getRelativeDateString(post.created_at)}
+                    </ThemedText>
                 </View>
-                {/* Preview of description */}
-                {previewOnly ?
-                    (<View style={styles.content}>
-                        <ThemedText type="defaultSemiBold">
-                            {patientPostStrings.patientDescription}
-                        </ThemedText>
-                        <ThemedText
-                            type="default"
-                            lightColor={Colors.light.softerText}
-                            darkColor={Colors.dark.softerText}
-                            numberOfLines={3}
-                            ellipsizeMode='tail'>
-                            {post.patient_description}
-                        </ThemedText></View>) :
-
-                    // Show full description and assessment
-                    (<View style={styles.content}>
-                        <ThemedText type="defaultSemiBold">
-                            {patientPostStrings.patientDescription}
-                        </ThemedText>
-                        <ThemedText type="default" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
-                            {post.patient_description}
-                        </ThemedText>
-                        <View style={styles.divider} />
-                        <ThemedText type="defaultSemiBold">
-                            {patientPostStrings.assessment}
-                        </ThemedText>
-                        <ThemedText type="default" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
-                            {post.assessment}
-                        </ThemedText>
-                    </View>)
-                }
-                {/* Hugs and comments */}
-                <View style={styles.actionContainer}>
-                    <IconButton
-                        title={`${post.num_hugs} ${post.num_hugs === 1 ? patientPostStrings.hug.toLocaleLowerCase() : patientPostStrings.hugPlural.toLocaleLowerCase()}`}
-                        iconName={hugged ? "heart-outline" : "heart-plus-outline"}
-                        buttonTextColor={hugged ? huggedColor : notHuggedColor}
-                        onPress={pressHugHandler}
-                    />
-                    <IconButton
-                        title={`${Object.keys(post.comments).length} ${Object.keys(post.comments).length === 1 ? patientPostStrings.comment.toLocaleLowerCase() : patientPostStrings.commentPlural.toLocaleLowerCase()}`}
-                        iconName="comment-text-multiple-outline"
-                        buttonTextColor={{ light: Colors.dark.softerText, dark: Colors.dark.softerText }}
-                    />
-                </View>
-                {/* Display comments on detailed modal */}
-                {!previewOnly && Object.keys(post.comments).length > 0 &&
-                    <View style={styles.commentsContainer}>
-                        <View style={styles.divider} />
-                        {renderComments()}
-                    </View>
-                }
             </View>
-        </ScrollView >
+            {/* Preview of description */}
+            {previewOnly ?
+                (<View style={styles.content}>
+                    <ThemedText type="defaultSemiBold">
+                        {patientPostStrings.patientDescription}
+                    </ThemedText>
+                    <ThemedText
+                        type="default"
+                        lightColor={Colors.light.softerText}
+                        darkColor={Colors.dark.softerText}
+                        numberOfLines={3}
+                        ellipsizeMode='tail'>
+                        {post.patient_description}
+                    </ThemedText></View>) :
+
+                // Show full description and assessment
+                (<View style={styles.content}>
+                    <ThemedText type="defaultSemiBold">
+                        {patientPostStrings.patientDescription}
+                    </ThemedText>
+                    <ThemedText type="default" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
+                        {post.patient_description}
+                    </ThemedText>
+                    <View style={styles.divider} />
+                    <ThemedText type="defaultSemiBold">
+                        {patientPostStrings.assessment}
+                    </ThemedText>
+                    <ThemedText type="default" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
+                        {post.assessment}
+                    </ThemedText>
+                </View>)
+            }
+            {/* Hugs and comments */}
+            <View style={styles.actionContainer}>
+                <IconButton
+                    title={`${post.num_hugs} ${post.num_hugs === 1 ? patientPostStrings.hug.toLocaleLowerCase() : patientPostStrings.hugPlural.toLocaleLowerCase()}`}
+                    iconName={hugged ? "heart-outline" : "heart-plus-outline"}
+                    buttonTextColor={hugged ? huggedColor : notHuggedColor}
+                    onPress={pressHugHandler}
+                />
+                <IconButton
+                    title={`${Object.keys(post.comments).length} ${Object.keys(post.comments).length === 1 ? patientPostStrings.comment.toLocaleLowerCase() : patientPostStrings.commentPlural.toLocaleLowerCase()}`}
+                    iconName="comment-text-multiple-outline"
+                    buttonTextColor={{ light: Colors.dark.softerText, dark: Colors.dark.softerText }}
+                />
+            </View>
+            {/* Display comments on detailed modal */}
+            {!previewOnly && Object.keys(post.comments).length > 0 &&
+                <View style={styles.commentsContainer}>
+                    <View style={styles.divider} />
+                    {renderComments()}
+                </View>
+            }
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        padding: 36,
-        borderRadius: 8
-    },
     container: {
         gap: 24,
-        flex: 1
+        padding: 24,
+        borderRadius: 8,
     },
     commentInfoContainer: {
         flexDirection: 'row',
@@ -238,7 +232,6 @@ const styles = StyleSheet.create({
         gap: 18
     },
     commentsContainer: {
-        maxHeight: '50%'
     },
     heading: {
         flexDirection: 'row',
@@ -249,20 +242,9 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     content: {
-        width: '100%',
         backgroundColor: 'rgba(255, 150, 7, 0.08)',
         gap: 6,
         padding: 18,
         borderRadius: 8
     },
 })
-
-// COMMENTS
-// < View style = { styles.commentsContainer } >
-//     <ThemedText type="defaultSemiBold">
-//         Patient Name
-//     </ThemedText>
-//     <ThemedText type="default" lightColor={Colors.light.softerText} darkColor={Colors.dark.softerText}>
-//         I'm an AI and not a doctor. Please consult with a healthcare professional for a formal diagnosis and treatment.
-//     </ThemedText>
-// </View >

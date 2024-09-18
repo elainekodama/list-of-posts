@@ -9,6 +9,7 @@ import { PostDetailsModal } from "@/components/patient-experiences/PostDetailsMo
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ListHeader } from "@/components/patient-experiences/ListHeader";
 import { patientPostStrings } from "@/constants/Strings";
+import { Colors } from "@/constants/Colors";
 
 const ageGroupFilters = [
   { label: '0-19', value: '0' },
@@ -163,7 +164,7 @@ export default function Index() {
           <View style={styles.flatlistFooter}>
             {
               loading ?
-                <ActivityIndicator size="large" /> : null}
+                <ActivityIndicator color={Colors.light.purpleAccent} size="large" /> : null}
             {
               !loading && fetchedAll ?
                 <ThemedText type="defaultSemiBold">{patientPostStrings.noMorePosts}</ThemedText> :
@@ -189,9 +190,8 @@ export default function Index() {
 const styles = StyleSheet.create({
   flatlistContainer: {
     alignSelf: 'center',
-    width: '66%',
-    minWidth: 450,
-    marginVertical: '4%'
+    width: '75%',
+    marginVertical: '8%'
   },
   flatlistFooter: {
     alignItems: 'center',
@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
       width: 6,
       height: 6
     },
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
+    elevation: 3,
   },
   dropdown: {
     backgroundColor: 'transparent',

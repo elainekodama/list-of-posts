@@ -1,5 +1,5 @@
 import { Post } from "@/models/Post";
-import { Modal, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { PatientPost } from "./PatientPost";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
@@ -18,21 +18,21 @@ export function PostDetailsModal({ post, isVisible, onClose, updateHugNumberHand
             transparent={true}
             animationType="fade"
             onRequestClose={onClose}>
-            <TouchableWithoutFeedback onPress={onClose}>
-                <View style={styles.modalBackground}>
-                    <TouchableWithoutFeedback>
-                        <View style={[styles.modalContainer, { backgroundColor: listItemBackground }]}>
+            <Pressable onPress={onClose} style={styles.modalBackground}>
+                <Pressable style={[styles.modalContainer, { backgroundColor: listItemBackground }]}>
+                    <View style={{ flex: 1 }}>
+                        <ScrollView>
                             {post &&
                                 <PatientPost
                                     previewOnly={false}
                                     post={post}
                                     onHugNumberChange={() => updateHugNumberHandler(post.post_url, post.num_hugs)} />
                             }
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-            </TouchableWithoutFeedback>
-        </Modal>
+                        </ScrollView>
+                    </View>
+                </Pressable>
+            </Pressable>
+        </Modal >
     )
 }
 
@@ -45,8 +45,9 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '80%',
-        maxHeight: '80%',
+        height: '75%',
         borderRadius: 8,
+        justifyContent: 'center',
         alignItems: 'center',
     },
 })
