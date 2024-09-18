@@ -25,7 +25,7 @@ export class ApiService {
             encoded = `[([0-9][0-9]([${gender}])`;
         }
         const endpoint = '/data';
-        const query = `_page=${cursor}&_limit=${limit}&title_like=${encoded}`;
+        const query = `_start=${cursor}&_limit=${limit}&title_like=${encoded}`;
         const posts: Post[] = [];
         const jsonData = await this.get(endpoint, query);
         if (jsonData as any[]) {

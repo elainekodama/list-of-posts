@@ -63,6 +63,7 @@ export default function Index() {
           }
         }
       } catch (error) {
+        setFetchedAll(true);
         // Should display error message for user
         console.log(error);
       } finally {
@@ -176,7 +177,6 @@ export default function Index() {
         data={data}
         renderItem={renderFlatListItem}
         onEndReached={() => fetchData(false)}
-        onEndReachedThreshold={0.75}
       />
       <PostDetailsModal
         post={selectedItem}

@@ -19,18 +19,19 @@ export function PostDetailsModal({ post, isVisible, onClose, updateHugNumberHand
             animationType="fade"
             onRequestClose={onClose}>
             <Pressable onPress={onClose} style={styles.modalBackground}>
-                <Pressable style={[styles.modalContainer, { backgroundColor: listItemBackground }]}>
-                    <View style={{ flex: 1 }}>
-                        <ScrollView>
+                <View style={[styles.modalContainer, { backgroundColor: listItemBackground }]}>
+                    <ScrollView>
+                        <Pressable>
                             {post &&
                                 <PatientPost
                                     previewOnly={false}
                                     post={post}
                                     onHugNumberChange={() => updateHugNumberHandler(post.post_url, post.num_hugs)} />
                             }
-                        </ScrollView>
-                    </View>
-                </Pressable>
+                        </Pressable>
+                    </ScrollView>
+                </View>
+
             </Pressable>
         </Modal >
     )

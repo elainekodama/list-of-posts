@@ -17,7 +17,6 @@ type PatientPostProps = {
 };
 export function PatientPost({ post, previewOnly, onHugNumberChange }: PatientPostProps) {
     const [hugged, setHugged] = useState<boolean>(false);
-    const background = useThemeColor({}, 'card');
     const notHuggedColor = {
         light: Colors.dark.softerText,
         dark: Colors.dark.softerText
